@@ -63,34 +63,25 @@ fun MainMenu(navController: NavHostController) {
             style = MaterialTheme.typography.headlineLarge
         )
         Spacer(modifier = Modifier.height(32.dp))
-        OptionButton(text = "Add") {
+        DefaultButton(text = "Add") {
             navController.navigate(Screen.AddScreen.route)
         }
         Spacer(modifier = Modifier.height(16.dp))
-        OptionButton(text = "Subtract") {
+        DefaultButton(text = "Subtract") {
             navController.navigate(Screen.SubtractScreen.route)
         }
         Spacer(modifier = Modifier.height(16.dp))
-        OptionButton(text = "Multiply") {
+        DefaultButton(text = "Multiply") {
             navController.navigate(Screen.MultiplyScreen.route)
         }
         Spacer(modifier = Modifier.height(16.dp))
-        OptionButton(text = "Divide") {
+        DefaultButton(text = "Divide") {
             navController.navigate(Screen.DivideScreen.route)
         }
         Spacer(modifier = Modifier.height(16.dp))
-        OptionButton(text = "Random") {
+        DefaultButton(text = "Random") {
             navController.navigate(Screen.RandomScreen.route)
         }
-    }
-}
-@Composable
-fun OptionButton(text: String, onClick: () -> Unit) {
-    Button(
-        onClick = onClick,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Text(text = text)
     }
 }
 
@@ -108,17 +99,17 @@ fun AddScreen(navController: NavHostController) {
         Text("Select Difficulty", style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(48.dp))  // To provide some spacing between the title and the buttons
 
-        DifficultyButton("Easy", onClick = {
+        DefaultButton("Easy", onClick = {
             // Navigate or handle easy difficulty logic
         })
 
         Spacer(modifier = Modifier.height(16.dp))  // Space between buttons
-        DifficultyButton("Medium", onClick = {
+        DefaultButton("Medium", onClick = {
             // Navigate or handle medium difficulty logic
         })
 
         Spacer(modifier = Modifier.height(16.dp))
-        DifficultyButton("Hard", onClick = {
+        DefaultButton("Hard", onClick = {
             // Navigate or handle hard difficulty logic
         })
     }
@@ -126,7 +117,7 @@ fun AddScreen(navController: NavHostController) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DifficultyButton(difficulty: String, onClick: () -> Unit) {
+fun DefaultButton(text: String, onClick: () -> Unit) {
     Card(
         onClick = onClick,
         modifier = Modifier
@@ -134,7 +125,7 @@ fun DifficultyButton(difficulty: String, onClick: () -> Unit) {
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
         Text(
-            text = difficulty,
+            text = text,
             style = MaterialTheme.typography.headlineLarge,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(16.dp)
