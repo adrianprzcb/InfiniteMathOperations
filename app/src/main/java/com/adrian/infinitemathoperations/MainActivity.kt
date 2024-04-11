@@ -8,6 +8,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,16 +34,16 @@ class MainActivity : ComponentActivity() {
                     AddScreen(navController)
                 }
                 composable(Screen.SubtractScreen.route) {
-                    // Aquí puedes llamar a la pantalla de resta
+                    SubtractScreen(navController)
                 }
                 composable(Screen.MultiplyScreen.route) {
-                    // Aquí puedes llamar a la pantalla de multiplicación
+                    MultiplyScreen(navController)
                 }
                 composable(Screen.DivideScreen.route) {
-                    // Aquí puedes llamar a la pantalla de división
+                    DivideScreen(navController)
                 }
                 composable(Screen.RandomScreen.route) {
-                    // Aquí puedes llamar a la pantalla de aleatorio
+                    RandomScreen(navController)
                 }
             }
         }
@@ -112,8 +113,131 @@ fun AddScreen(navController: NavHostController) {
         DefaultButton("Hard", onClick = {
             // Navigate or handle hard difficulty logic
         })
+        
+        BackButton(onClick = { navController.popBackStack() })
     }
 }
+
+
+
+///  SUBTRACT SCREEN ªªª!!!!!!
+@Composable
+fun SubtractScreen(navController: NavHostController) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(32.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text("Select Difficulty", style = MaterialTheme.typography.headlineMedium)
+        Spacer(modifier = Modifier.height(48.dp))  // To provide some spacing between the title and the buttons
+
+        DefaultButton("Easy", onClick = {
+            // Navigate or handle easy difficulty logic
+        })
+
+        Spacer(modifier = Modifier.height(16.dp))  // Space between buttons
+        DefaultButton("Medium", onClick = {
+            // Navigate or handle medium difficulty logic
+        })
+
+        Spacer(modifier = Modifier.height(16.dp))
+        DefaultButton("Hard", onClick = {
+            // Navigate or handle hard difficulty logic
+        })
+    }
+}
+
+///  MULTYPLY SCREEN ªªª!!!!!!
+@Composable
+fun MultiplyScreen(navController: NavHostController) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(32.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text("Select Difficulty", style = MaterialTheme.typography.headlineMedium)
+        Spacer(modifier = Modifier.height(48.dp))  // To provide some spacing between the title and the buttons
+
+        DefaultButton("Easy", onClick = {
+            // Navigate or handle easy difficulty logic
+        })
+
+        Spacer(modifier = Modifier.height(16.dp))  // Space between buttons
+        DefaultButton("Medium", onClick = {
+            // Navigate or handle medium difficulty logic
+        })
+
+        Spacer(modifier = Modifier.height(16.dp))
+        DefaultButton("Hard", onClick = {
+            // Navigate or handle hard difficulty logic
+        })
+    }
+}
+
+
+///  DIVIDE SCREEN ªªª!!!!!!
+@Composable
+fun DivideScreen(navController: NavHostController) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(32.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text("Select Difficulty", style = MaterialTheme.typography.headlineMedium)
+        Spacer(modifier = Modifier.height(48.dp))  // To provide some spacing between the title and the buttons
+
+        DefaultButton("Easy", onClick = {
+            // Navigate or handle easy difficulty logic
+        })
+
+        Spacer(modifier = Modifier.height(16.dp))  // Space between buttons
+        DefaultButton("Medium", onClick = {
+            // Navigate or handle medium difficulty logic
+        })
+
+        Spacer(modifier = Modifier.height(16.dp))
+        DefaultButton("Hard", onClick = {
+            // Navigate or handle hard difficulty logic
+        })
+    }
+}
+
+
+///  RANDOM SCREEN ªªª!!!!!!
+@Composable
+fun RandomScreen(navController: NavHostController) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(32.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text("Select Difficulty", style = MaterialTheme.typography.headlineMedium)
+        Spacer(modifier = Modifier.height(48.dp))  // To provide some spacing between the title and the buttons
+
+        DefaultButton("Easy", onClick = {
+            // Navigate or handle easy difficulty logic
+        })
+
+        Spacer(modifier = Modifier.height(16.dp))  // Space between buttons
+        DefaultButton("Medium", onClick = {
+            // Navigate or handle medium difficulty logic
+        })
+
+        Spacer(modifier = Modifier.height(16.dp))
+        DefaultButton("Hard", onClick = {
+            // Navigate or handle hard difficulty logic
+        })
+    }
+}
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -133,6 +257,21 @@ fun DefaultButton(text: String, onClick: () -> Unit) {
     }
 }
 
+@Composable
+fun BackButton(onClick: () -> Unit) {
+    Button(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 24.dp), // 25% from left and right
+        onClick = onClick,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.error // Set red color using MaterialTheme
+        ),
+        contentPadding = PaddingValues(16.dp), // Add some content padding
+    ) {
+        Text(text = "Back") // Text color is inherited from the Button style
+    }
+}
 
 
 @Preview(showBackground = true)
