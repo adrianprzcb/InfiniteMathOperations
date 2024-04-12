@@ -83,6 +83,7 @@ fun MainMenu(navController: NavHostController) {
         DefaultButton(text = "Random") {
             navController.navigate(Screen.RandomScreen.route)
         }
+
     }
 }
 
@@ -114,6 +115,8 @@ fun AddScreen(navController: NavHostController) {
             // Navigate or handle hard difficulty logic
         })
 
+        Spacer(modifier = Modifier.height(16.dp))
+        // Add BackButton at the bottom
         BackButton(onClick = { navController.popBackStack() })
     }
 }
@@ -179,7 +182,12 @@ fun MultiplyScreen(navController: NavHostController) {
         DefaultButton("Hard", onClick = {
             // Navigate or handle hard difficulty logic
         })
+
+        Spacer(modifier = Modifier.height(16.dp))
+        // Add BackButton at the bottom
+        BackButton(onClick = { navController.popBackStack() })
     }
+
 }
 
 
@@ -209,6 +217,10 @@ fun DivideScreen(navController: NavHostController) {
         DefaultButton("Hard", onClick = {
             // Navigate or handle hard difficulty logic
         })
+
+        Spacer(modifier = Modifier.height(16.dp))
+        // Add BackButton at the bottom
+        BackButton(onClick = { navController.popBackStack() })
     }
 }
 
@@ -239,6 +251,10 @@ fun RandomScreen(navController: NavHostController) {
         DefaultButton("Hard", onClick = {
             // Navigate or handle hard difficulty logic
         })
+
+        Spacer(modifier = Modifier.height(16.dp))
+        // Add BackButton at the bottom
+        BackButton(onClick = { navController.popBackStack() })
     }
 }
 
