@@ -113,7 +113,7 @@ fun AddScreen(navController: NavHostController) {
         DefaultButton("Hard", onClick = {
             // Navigate or handle hard difficulty logic
         })
-        
+
         BackButton(onClick = { navController.popBackStack() })
     }
 }
@@ -128,24 +128,28 @@ fun SubtractScreen(navController: NavHostController) {
             .fillMaxSize()
             .padding(32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center // This is the default
     ) {
         Text("Select Difficulty", style = MaterialTheme.typography.headlineMedium)
-        Spacer(modifier = Modifier.height(48.dp))  // To provide some spacing between the title and the buttons
+        Spacer(modifier = Modifier.height(48.dp))  // Space between title and buttons
 
         DefaultButton("Easy", onClick = {
-            // Navigate or handle easy difficulty logic
+            // ...
         })
 
         Spacer(modifier = Modifier.height(16.dp))  // Space between buttons
         DefaultButton("Medium", onClick = {
-            // Navigate or handle medium difficulty logic
+            // ...
+        })
+
+        Spacer(modifier = Modifier.height(16.dp))  // Space between buttons
+        DefaultButton("Hard", onClick = {
+            // ...
         })
 
         Spacer(modifier = Modifier.height(16.dp))
-        DefaultButton("Hard", onClick = {
-            // Navigate or handle hard difficulty logic
-        })
+        // Add BackButton at the bottom
+        BackButton(onClick = { navController.popBackStack() })
     }
 }
 
