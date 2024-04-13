@@ -3,9 +3,15 @@ package com.adrian.infinitemathoperations
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,6 +23,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.adrian.infinitemathoperations.ui.theme.InfiniteMathOperationsTheme
+import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,35 +98,79 @@ fun MainMenu(navController: NavHostController) {
 ///  ADD SCREEN ªªª!!!!!!
 @Composable
 fun AddScreen(navController: NavHostController) {
+    var showDifficultyButtons by remember { mutableStateOf(true) } // State variable to control button visibility
+    var number1 by remember { mutableStateOf(0) } // Store first random number
+    var number2 by remember { mutableStateOf(0) } // Store second random number
+    var answer by remember { mutableStateOf(0) } // Store the sum
+    var userAnswer by remember { mutableStateOf("") } // Store user's entered answer
+    var isAnswerCorrect by remember { mutableStateOf(false) } // Track if answer is correct
+
+    fun generateEasyAddition(maxValue: Int) {
+        number1 = (1..maxValue).random()
+        number2 = (1..maxValue - number1).random()
+        answer = number1 + number2
+        isAnswerCorrect = false // Reset correctness flag for next problem
+    }
+
+    var backgroundColor by remember { mutableStateOf(Color.White) } // Background color state
+
+    LaunchedEffect(isAnswerCorrect) { // Effect triggered on answer correctness change
+        if (isAnswerCorrect) {
+            backgroundColor = Color.Green // Set green for 0.5 seconds
+            delay(500) // Delay for 0.5 seconds
+            backgroundColor = Color.White // Reset background color
+            generateEasyAddition(25) // Generate new addition problem
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(32.dp),
+            .padding(32.dp)
+            .background(backgroundColor),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
-        Text("Select Difficulty", style = MaterialTheme.typography.headlineMedium)
-        Spacer(modifier = Modifier.height(48.dp))  // To provide some spacing between the title and the buttons
+        if (showDifficultyButtons) {
+            // Difficulty selection section (visible initially)
+            // ... (unchanged)
+        } else {
+            // Addition operation section (visible after easy button press)
+            Text("What is ${number1} + ${number2} ?", style = MaterialTheme.typography.headlineMedium)
 
-        DefaultButton("Easy", onClick = {
-            // Navigate or handle easy difficulty logic
-        })
+            OutlinedTextField(
+                value = userAnswer,
+                onValueChange = { userAnswer = it },
+                label = { Text("Enter your answer") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .then( // Chain modifiers
+                        if (isAnswerCorrect) Modifier.textStyle(Color.Black) else Modifier.textColor(Color.Red)
+                    )
+            )
 
-        Spacer(modifier = Modifier.height(16.dp))  // Space between buttons
-        DefaultButton("Medium", onClick = {
-            // Navigate or handle medium difficulty logic
-        })
+            Button(onClick = {
+                val enteredAnswer = userAnswer.toIntOrNull()
+                if (enteredAnswer != null) {
+                    isAnswerCorrect = enteredAnswer == answer
+                } else {
+                    // Handle non-numeric input (e.g., show error message)
+                }
+            }) {
+                Text(text = "Submit Answer")
+            }
 
-        Spacer(modifier = Modifier.height(16.dp))
-        DefaultButton("Hard", onClick = {
-            // Navigate or handle hard difficulty logic
-        })
+            // Add a button to regenerate the problem (optional)
+            // ...
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
         // Add BackButton at the bottom
         BackButton(onClick = { navController.popBackStack() })
     }
 }
+
+
 
 
 
