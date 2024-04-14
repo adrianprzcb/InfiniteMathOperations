@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.indication
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -144,8 +146,14 @@ fun AddScreen(navController: NavHostController) {
                 label = { Text("Enter your answer") },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .then( // Chain modifiers
-                        if (isAnswerCorrect) Modifier.textStyle(Color.Black) else Modifier.textColor(Color.Red)
+                    .indication( // Use indication modifier for conditional color
+                        if (isAnswerCorrect) {
+                            Icon(Icons.Check, contentDescription = "Correct"),
+                        }// Optional visual cue
+                        else  {
+                            Icon(Icons.Error, contentDescription = "Incorrect"),
+                        } ,
+                      //  color = if (isAnswerCorrect) Color.Black else Color.Red
                     )
             )
 
