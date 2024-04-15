@@ -114,7 +114,8 @@ fun AddScreen(navController: NavHostController) {
         isAnswerCorrect = false // Reset correctness flag for next problem
     }
 
-    var backgroundColor by remember { mutableStateOf(Color.White) } // Background color state
+    var backgroundColor by remember { mutableStateOf(Color.White) }
+    // Background color state
 
     LaunchedEffect(isAnswerCorrect) { // Effect triggered on answer correctness change
         if (isAnswerCorrect) {
@@ -134,28 +135,38 @@ fun AddScreen(navController: NavHostController) {
         verticalArrangement = Arrangement.Center,
     ) {
         if (showDifficultyButtons) {
-            // Difficulty selection section (visible initially)
-            // ... (unchanged)
+
+                Text("Select Difficulty", style = MaterialTheme.typography.headlineMedium)
+                Spacer(modifier = Modifier.height(48.dp))  // Space between title and buttons
+
+                DefaultButton("Easy", onClick = {
+                    // ...
+                })
+
+                Spacer(modifier = Modifier.height(16.dp))  // Space between buttons
+                DefaultButton("Medium", onClick = {
+                    // ...
+                })
+
+                Spacer(modifier = Modifier.height(16.dp))  // Space between buttons
+                DefaultButton("Hard", onClick = {
+                    // ...
+                })
+
         } else {
             // Addition operation section (visible after easy button press)
             Text("What is ${number1} + ${number2} ?", style = MaterialTheme.typography.headlineMedium)
-
             OutlinedTextField(
                 value = userAnswer,
                 onValueChange = { userAnswer = it },
                 label = { Text("Enter your answer") },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .indication( // Use indication modifier for conditional color
-                        if (isAnswerCorrect) {
-                            Icon(Icons.Check, contentDescription = "Correct"),
-                        }// Optional visual cue
-                        else  {
-                            Icon(Icons.Error, contentDescription = "Incorrect"),
-                        } ,
-                      //  color = if (isAnswerCorrect) Color.Black else Color.Red
-                    )
+                    .background(backgroundColor)
             )
+            LaunchedEffect(isAnswerCorrect) { // Update color on change
+                backgroundColor = if (isAnswerCorrect) Color.White else Color.LightGray
+            }
 
             Button(onClick = {
                 val enteredAnswer = userAnswer.toIntOrNull()
