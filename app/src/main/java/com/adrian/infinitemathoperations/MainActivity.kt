@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.indication
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -17,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -104,12 +106,18 @@ fun AddScreen(navController: NavHostController) {
     var number1 by remember { mutableStateOf(0) } // Store first random number
     var number2 by remember { mutableStateOf(0) } // Store second random number
     var answer by remember { mutableStateOf(0) } // Store the sum
+    var levelId by remember {
+        mutableStateOf(0)
+    }
     var userAnswer by remember { mutableStateOf("") } // Store user's entered answer
     var isAnswerCorrect by remember { mutableStateOf(false) } // Track if answer is correct
 
-    fun generateEasyAddition(maxValue: Int) {
+    fun generateAddition(maxValue: Int) {
+        // Generate two random numbers within the specified range
         number1 = (1..maxValue).random()
-        number2 = (1..maxValue - number1).random()
+        number2 = (1..maxValue).random()
+
+        // Calculate the sum
         answer = number1 + number2
         isAnswerCorrect = false // Reset correctness flag for next problem
     }
@@ -122,14 +130,24 @@ fun AddScreen(navController: NavHostController) {
             backgroundColor = Color.Green // Set green for 0.5 seconds
             delay(500) // Delay for 0.5 seconds
             backgroundColor = Color.White // Reset background color
-            generateEasyAddition(25) // Generate new addition problem
+
+            var numMaxCalc = 0
+            when (levelId) { // Use a more concise when expression
+                1 -> numMaxCalc = 100
+                2 -> numMaxCalc = 10000
+                3 -> numMaxCalc = 1000000
+                4 -> numMaxCalc = 10
+            }
+
+            generateAddition(numMaxCalc)
         }
     }
+
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(32.dp)
+            .padding(0.dp)
             .background(backgroundColor),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -139,18 +157,31 @@ fun AddScreen(navController: NavHostController) {
                 Text("Select Difficulty", style = MaterialTheme.typography.headlineMedium)
                 Spacer(modifier = Modifier.height(48.dp))  // Space between title and buttons
 
+                DefaultButton("Very Easy", onClick = {
+                showDifficultyButtons = false
+                generateAddition(10)
+                levelId = 4
+                 })
+
+                Spacer(modifier = Modifier.height(16.dp))  // Space between buttons
                 DefaultButton("Easy", onClick = {
-                    // ...
+                    showDifficultyButtons = false
+                    generateAddition(100)
+                    levelId = 1
                 })
 
                 Spacer(modifier = Modifier.height(16.dp))  // Space between buttons
                 DefaultButton("Medium", onClick = {
-                    // ...
+                    showDifficultyButtons = false
+                    generateAddition(10000)
+                    levelId = 2
                 })
 
                 Spacer(modifier = Modifier.height(16.dp))  // Space between buttons
                 DefaultButton("Hard", onClick = {
-                    // ...
+                    showDifficultyButtons = false
+                    generateAddition(1000000)
+                    levelId = 3
                 })
 
         } else {
@@ -160,12 +191,13 @@ fun AddScreen(navController: NavHostController) {
                 value = userAnswer,
                 onValueChange = { userAnswer = it },
                 label = { Text("Enter your answer") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number), // Set keyboard type to Number
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(backgroundColor)
             )
             LaunchedEffect(isAnswerCorrect) { // Update color on change
-                backgroundColor = if (isAnswerCorrect) Color.White else Color.LightGray
+                backgroundColor = if (isAnswerCorrect) Color.Green else Color.White
             }
 
             Button(onClick = {
