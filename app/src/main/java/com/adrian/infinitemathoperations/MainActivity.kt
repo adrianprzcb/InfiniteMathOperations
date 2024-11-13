@@ -66,6 +66,7 @@ fun MainMenu(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(Color(0xFFAFFCD8))
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -122,7 +123,7 @@ fun AddScreen(navController: NavHostController) {
         isAnswerCorrect = false // Reset correctness flag for next problem
     }
 
-    var backgroundColor by remember { mutableStateOf(Color.White) }
+    var backgroundColor by remember { mutableStateOf(Color(0xFFAFFCD8)) }
     // Background color state
 
     LaunchedEffect(isAnswerCorrect) { // Effect triggered on answer correctness change
@@ -197,7 +198,7 @@ fun AddScreen(navController: NavHostController) {
                     .background(backgroundColor)
             )
             LaunchedEffect(isAnswerCorrect) { // Update color on change
-                backgroundColor = if (isAnswerCorrect) Color.Green else Color.White
+                backgroundColor = if (isAnswerCorrect) Color.Green else Color(0xFFAFFCD8)
             }
 
             Button(onClick = {
