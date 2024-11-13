@@ -128,9 +128,7 @@ fun AddScreen(navController: NavHostController) {
 
     LaunchedEffect(isAnswerCorrect) { // Effect triggered on answer correctness change
         if (isAnswerCorrect) {
-            backgroundColor = Color.Green // Set green for 0.5 seconds
-            delay(500) // Delay for 0.5 seconds
-            backgroundColor = Color.White // Reset background color
+            delay(200) // Delay for 0.5 seconds
 
             var numMaxCalc = 0
             when (levelId) { // Use a more concise when expression
@@ -140,6 +138,7 @@ fun AddScreen(navController: NavHostController) {
                 4 -> numMaxCalc = 10
             }
 
+            userAnswer = ""
             generateAddition(numMaxCalc)
         }
     }
@@ -198,7 +197,7 @@ fun AddScreen(navController: NavHostController) {
                     .background(backgroundColor)
             )
             LaunchedEffect(isAnswerCorrect) { // Update color on change
-                backgroundColor = if (isAnswerCorrect) Color.Green else Color(0xFFAFFCD8)
+                backgroundColor = if (isAnswerCorrect) Color(0xFF3FFFA6) else Color(0xFFAFFCD8)
             }
 
             Button(onClick = {
