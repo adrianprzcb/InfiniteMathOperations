@@ -134,7 +134,7 @@ fun AddScreen(navController: NavHostController) {
                     text = "In a Row: $inarow",
                     style = MaterialTheme.typography.bodyMedium, // Smaller text
                     modifier = Modifier
-                        .padding(top = 16.dp)
+                        .padding(top = 50.dp)
                         .align(Alignment.Start) // Align to top-left
                         .padding(horizontal = 16.dp)
                 )
@@ -161,7 +161,7 @@ fun AddScreen(navController: NavHostController) {
                             .fillMaxWidth()
                             .padding(horizontal = 32.dp)
                             .clip(RoundedCornerShape(16.dp)) // Rounded corners
-                            .background(Color.White)
+                            .background(backgroundColor)
                     )
 
                     Spacer(modifier = Modifier.height(24.dp))
