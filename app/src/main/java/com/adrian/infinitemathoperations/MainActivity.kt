@@ -391,7 +391,7 @@ fun BackButton(onClick: () -> Unit) {
             .padding(horizontal = 24.dp), // 25% from left and right
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.error // Set red color using MaterialTheme
+            containerColor = Color(0xFFEF5541) // Set red color using MaterialTheme
         ),
         contentPadding = PaddingValues(16.dp), // Add some content padding
     ) {
