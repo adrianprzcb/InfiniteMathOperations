@@ -140,6 +140,7 @@ fun AddScreen(navController: NavHostController) {
             }
 
             userAnswer = ""
+            inarow += 1
             generateAddition(numMaxCalc)
         }
     }
