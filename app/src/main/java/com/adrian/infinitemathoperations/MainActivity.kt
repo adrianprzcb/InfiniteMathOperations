@@ -124,6 +124,7 @@ fun AddScreen(navController: NavHostController) {
     }
 
     var backgroundColor by remember { mutableStateOf(Color(0xFFAFFCD8)) }
+    var inarow by remember { mutableStateOf(0) }
     // Background color state
 
     LaunchedEffect(isAnswerCorrect) { // Effect triggered on answer correctness change
@@ -186,6 +187,7 @@ fun AddScreen(navController: NavHostController) {
 
         } else {
             // Addition operation section (visible after easy button press)
+            Text("In a Row: " + inarow, style = MaterialTheme.typography.headlineMedium)
             Text("What is ${number1} + ${number2} ?", style = MaterialTheme.typography.headlineMedium)
             OutlinedTextField(
                 value = userAnswer,
