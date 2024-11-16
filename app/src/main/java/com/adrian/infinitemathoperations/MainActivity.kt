@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.indication
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.*
@@ -17,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -101,6 +103,7 @@ fun MainMenu(navController: NavHostController) {
 
 
 ///  ADD SCREEN ªªª!!!!!!
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddScreen(navController: NavHostController) {
     var showDifficultyButtons by remember { mutableStateOf(true) } // State variable to control button visibility
@@ -156,71 +159,108 @@ fun AddScreen(navController: NavHostController) {
     ) {
         if (showDifficultyButtons) {
 
-                Text("Select Difficulty", style = MaterialTheme.typography.headlineMedium)
-                Spacer(modifier = Modifier.height(48.dp))  // Space between title and buttons
+            Text("Select Difficulty", style = MaterialTheme.typography.headlineMedium)
+            Spacer(modifier = Modifier.height(48.dp))  // Space between title and buttons
 
-                DefaultButton("Very Easy", onClick = {
+            DefaultButton("Very Easy", onClick = {
                 showDifficultyButtons = false
                 generateAddition(10)
                 levelId = 4
-                 })
+            })
 
-                Spacer(modifier = Modifier.height(16.dp))  // Space between buttons
-                DefaultButton("Easy", onClick = {
-                    showDifficultyButtons = false
-                    generateAddition(100)
-                    levelId = 1
-                })
+            Spacer(modifier = Modifier.height(16.dp))  // Space between buttons
+            DefaultButton("Easy", onClick = {
+                showDifficultyButtons = false
+                generateAddition(100)
+                levelId = 1
+            })
 
-                Spacer(modifier = Modifier.height(16.dp))  // Space between buttons
-                DefaultButton("Medium", onClick = {
-                    showDifficultyButtons = false
-                    generateAddition(10000)
-                    levelId = 2
-                })
+            Spacer(modifier = Modifier.height(16.dp))  // Space between buttons
+            DefaultButton("Medium", onClick = {
+                showDifficultyButtons = false
+                generateAddition(10000)
+                levelId = 2
+            })
 
-                Spacer(modifier = Modifier.height(16.dp))  // Space between buttons
-                DefaultButton("Hard", onClick = {
-                    showDifficultyButtons = false
-                    generateAddition(1000000)
-                    levelId = 3
-                })
+            Spacer(modifier = Modifier.height(16.dp))  // Space between buttons
+            DefaultButton("Hard", onClick = {
+                showDifficultyButtons = false
+                generateAddition(1000000)
+                levelId = 3
+            })
 
         } else {
-            // Addition operation section (visible after easy button press)
-            Text("In a Row: " + inarow, style = MaterialTheme.typography.headlineMedium)
-            Text("What is ${number1} + ${number2} ?", style = MaterialTheme.typography.headlineMedium)
-            OutlinedTextField(
-                value = userAnswer,
-                onValueChange = { userAnswer = it },
-                label = { Text("Enter your answer") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number), // Set keyboard type to Number
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .background(backgroundColor)
-            )
-            LaunchedEffect(isAnswerCorrect) { // Update color on change
+                    .fillMaxSize()
+                    .padding(0.dp)
+                    .background(backgroundColor),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceBetween, // Space out elements
+            ) {
+                // "In a Row" counter at the top
+                Text(
+                    text = "In a Row: $inarow",
+                    style = MaterialTheme.typography.bodyMedium, // Smaller text
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                        .align(Alignment.Start) // Align to top-left
+                        .padding(horizontal = 16.dp)
+                )
+
+                // Centered addition problem and input field
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxHeight(0.8f) // Take up 80% of vertical space
+                ) {
+                    Text(
+                        text = "What is ${number1} + ${number2}?",
+                        style = MaterialTheme.typography.displayMedium, // Larger text
+                        modifier = Modifier.padding(bottom = 32.dp)
+                    )
+
+                    OutlinedTextField(
+                        value = userAnswer,
+                        onValueChange = { userAnswer = it },
+                        label = { Text("Enter your answer") },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        textStyle = MaterialTheme.typography.bodyLarge.copy(color = Color.Black),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 32.dp)
+                            .clip(RoundedCornerShape(16.dp)) // Rounded corners
+                            .background(Color.White)
+                    )
+
+                    Spacer(modifier = Modifier.height(24.dp))
+
+                    Button(
+                        onClick = {
+                            val enteredAnswer = userAnswer.toIntOrNull()
+                            if (enteredAnswer != null) {
+                                isAnswerCorrect = enteredAnswer == answer
+                            } else {
+                                // Handle invalid input
+                            }
+                        },
+                        modifier = Modifier.padding(horizontal = 32.dp)
+                    ) {
+                        Text(text = "Submit Answer")
+                    }
+                }
+
+                // Back button at the bottom
+                BackButton(
+                    onClick = { navController.popBackStack() }
+                )
+            }
+
+            // Update background color based on answer correctness
+            LaunchedEffect(isAnswerCorrect) {
                 backgroundColor = if (isAnswerCorrect) Color(0xFF3FFFA6) else Color(0xFFAFFCD8)
             }
-
-            Button(onClick = {
-                val enteredAnswer = userAnswer.toIntOrNull()
-                if (enteredAnswer != null) {
-                    isAnswerCorrect = enteredAnswer == answer
-                } else {
-                    // Handle non-numeric input (e.g., show error message)
-                }
-            }) {
-                Text(text = "Submit Answer")
-            }
-
-            // Add a button to regenerate the problem (optional)
-            // ...
         }
-
-        Spacer(modifier = Modifier.height(16.dp))
-        // Add BackButton at the bottom
-        BackButton(onClick = { navController.popBackStack() })
     }
 }
 
@@ -228,7 +268,8 @@ fun AddScreen(navController: NavHostController) {
 
 
 
-///  SUBTRACT SCREEN ªªª!!!!!!
+
+        ///  SUBTRACT SCREEN ªªª!!!!!!
 @Composable
 fun SubtractScreen(navController: NavHostController) {
     Column(
@@ -384,11 +425,11 @@ fun DefaultButton(text: String, onClick: () -> Unit) {
 
 
 @Composable
-fun BackButton(onClick: () -> Unit) {
+fun BackButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
     Button(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 24.dp), // 25% from left and right
+            .padding(horizontal = 24.dp , vertical = 10.dp), // 25% from left and right
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
             containerColor = Color(0xFFEF5541) // Set red color using MaterialTheme
